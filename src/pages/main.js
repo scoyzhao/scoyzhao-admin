@@ -1,14 +1,15 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import './mian.css'
 
 import Login from './Login'
+import Index from './Index'
 
-function Main() {
+const Main = () => {
   return (
     <Router>
       <Route path='/' exact component={Login} />
-      <Route path='/login/' exact component={Login} />
+      <Route path='/login' exact component={Login} />
+      <Route path='/index' exact component={Index} />
     </Router>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'antd'
 
-function Login() {
+const Login = () => {
   return (
     <div>
       <Button type='primary'>Hello World</Button>
