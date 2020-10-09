@@ -1,0 +1,12 @@
+body {
+  background-color: #f0f0f0;
+}
+
+.login_div {
+  width: 400px;
+  margin: 200px auto;
+}
+
+.login_input {
+  margin: 5px 0;
+}
