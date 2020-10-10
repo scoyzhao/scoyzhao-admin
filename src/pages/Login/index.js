@@ -9,6 +9,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const checkLogin = () => {
+    console.log(userName, password)
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
