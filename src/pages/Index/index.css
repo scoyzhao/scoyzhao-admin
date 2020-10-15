@@ -1,3 +1,9 @@
 .site-layout .site-layout-header {
   background: #fff;
 }
+
+.site-layout-header-button {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+}
