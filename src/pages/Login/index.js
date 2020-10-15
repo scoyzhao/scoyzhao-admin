@@ -2,48 +2,60 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:08:39
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-15 16:03:07
+ * @Last Modified time: 2020-10-15 17:08:23
  */
 
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom';
-import { Button, Card, Spin, Input, message } from 'antd'
+import { Button, Card, Input, Row, Col, message } from 'antd'
 // TODO shot root
 import http from '../../service/http'
 import API from '../../service/api'
 
 import './index.css'
 
-const Login = () => {
+const Login = (props) => {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const history = useHistory()
 
   const checkLogin = async () => {
-    setIsLoading(true)
-    try {
-      const res = await http.post(API.LOGIN, {
-        userName,
-        password,
-      })
-      if (res.code !== 0) {
-        message.error(res.msg)
-      } else {
-        history.push('/index')
+    if (!userName || !password) {
+      message.error('账号名/密码不能为空')
+    } else {
+      setIsLoading(true)
+      try {
+        const res = await http.post(API.LOGIN, {
+          userName,
+          password,
+        })
+
+        if (res.code !== 0) {
+          message.error(res.msg)
+        } else {
+          props.history.replace('/index')
+        }
+      } catch (error) {
+        message.error(error.toString())
       }
-    } catch (error) {
-      message.error(error.toString())
+
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 500)
     }
-    setIsLoading(false)
   }
 
   return (
-    <div className='login_div'>
-      <Spin tip='Loading...' spinning={isLoading}>
+    <Row
+      style={{ minHeight: '100vh' }}
+      type='flex'
+      justify='center'
+      align='middle'
+    >
+      <Col>
         <Card
           style={{ width: 400 }}
           title='scoyzhao-admin'
+          loading={isLoading}
           bordered={true}
         >
           <Input
@@ -52,18 +64,16 @@ const Login = () => {
             placeholder='Enter your userName'
             onChange={(e) => { setUserName(e.target.value) }}
           />
-          <br /><br />
           <Input.Password
             className='login_input'
             size='large'
             placeholder='Enter your password'
             onChange={(e) => { setPassword(e.target.value) }}
           />
-          <br /><br />
           <Button type='primary' size='large' block onClick={checkLogin}>Login in</Button>
         </Card>
-      </Spin>
-    </div>
+      </Col>
+    </Row>
   )
 }
 export default Login

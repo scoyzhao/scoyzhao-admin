@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:10:23
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-15 16:01:25
+ * @Last Modified time: 2020-10-15 16:16:21
  */
 
 import axios from 'axios'
@@ -16,7 +16,6 @@ const instance = axios.create({
 })
 
 instance.interceptors.response.use(response => {
-console.log("response", response.data)
   // * 处理代码403
   const {
     code,
