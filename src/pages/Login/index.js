@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:08:39
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-14 01:54:16
+ * @Last Modified time: 2020-10-15 16:03:07
  */
 
 import React, { useState } from 'react'
@@ -21,22 +21,18 @@ const Login = () => {
   const history = useHistory()
 
   const checkLogin = async () => {
-
     setIsLoading(true)
     try {
       const res = await http.post(API.LOGIN, {
         userName,
         password,
       })
-
-      // TODO axios 封装
-      if (res.data.code !== 0) {
-        message.error(res.data.msg)
+      if (res.code !== 0) {
+        message.error(res.msg)
       } else {
         history.push('/index')
       }
     } catch (error) {
-      console.log("checkLogin -> error", error)
       message.error(error.toString())
     }
     setIsLoading(false)
