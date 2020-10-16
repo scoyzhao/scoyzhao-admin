@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 01:05:24
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-16 01:41:23
+ * @Last Modified time: 2020-10-16 11:27:25
  */
 
 import React, { useState } from 'react'
@@ -95,8 +95,8 @@ const Index = (props) => {
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <>
-            <Route path='/index/' exact component={Overveiw} />
-            <Route path='/index/category/' exact component={Category} />
+            <Route path='/index' exact component={Overveiw} />
+            <Route path='/index/category' exact component={Category} />
           </>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

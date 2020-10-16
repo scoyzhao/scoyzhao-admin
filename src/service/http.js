@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:10:23
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-15 16:16:21
+ * @Last Modified time: 2020-10-16 11:31:05
  */
 
 import axios from 'axios'
@@ -24,7 +24,7 @@ instance.interceptors.response.use(response => {
 
   if (code === 403) {
     message.error(msg)
-    window.location.href = '/login'
+    window.location.href = '/'
   } else {
     return response.data
   }
