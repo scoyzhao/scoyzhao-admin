@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:08:39
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-15 17:08:23
+ * @Last Modified time: 2020-10-16 11:47:01
  */
 
 import React, { useState } from 'react'
@@ -62,12 +62,14 @@ const Login = (props) => {
             className='login_input'
             size='large'
             placeholder='Enter your userName'
+            value={userName}
             onChange={(e) => { setUserName(e.target.value) }}
           />
           <Input.Password
             className='login_input'
             size='large'
             placeholder='Enter your password'
+            value={password}
             onChange={(e) => { setPassword(e.target.value) }}
           />
           <Button type='primary' size='large' block onClick={checkLogin}>Login in</Button>
