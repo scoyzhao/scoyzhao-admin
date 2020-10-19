@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 00:55:25
+ * @Last Modified time: 2020-10-20 00:57:18
  */
 
 import { Table, Card, Button, message } from 'antd'
@@ -22,20 +22,16 @@ const Category = () => {
     getListById,
   ] = useType()
 
-  const getTypeList = useCallback(
-    async () => {
+  useEffect(() => {
+    const getTypeList = async () => {
       try {
         await getList({})
       } catch (error) {
         message.error(error.toString())
       }
-    },
-    [getList]
-  )
-
-  useEffect(() => {
+    }
     getTypeList()
-  }, [getTypeList])
+  }, [getList])
 
   useEffect(() => {
     const { id } = type
