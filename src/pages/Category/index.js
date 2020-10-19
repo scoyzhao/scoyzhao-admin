@@ -2,12 +2,13 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 00:57:18
+ * @Last Modified time: 2020-10-20 01:13:42
  */
 
-import { Table, Card, Button, message } from 'antd'
 import React, { useEffect, useCallback } from 'react'
+import { Table, Card, Button, message } from 'antd'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
+import EditorModal from './EditModal'
 import useType from '../../hooks/business/useType'
 
 const Category = () => {
@@ -20,6 +21,8 @@ const Category = () => {
     updateBlogType,
     getList,
     getListById,
+    isEditModalVisible,
+    showEditModal,
   ] = useType()
 
   useEffect(() => {
@@ -36,9 +39,9 @@ const Category = () => {
   useEffect(() => {
     const { id } = type
     if (id) {
-      console.log(id)
+      showEditModal(true)
     }
-  }, [type])
+  }, [showEditModal, type])
 
   const handleEdit = async (id) => {
     try {
@@ -109,6 +112,9 @@ const Category = () => {
           loading={typeLoading}
         />
       </Card>
+      {
+        isEditModalVisible && <EditorModal type={type} showEditModal={showEditModal} />
+      }
     </PageHeaderWrapper>
   )
 }
