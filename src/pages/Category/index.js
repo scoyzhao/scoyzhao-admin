@@ -2,10 +2,10 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 01:13:42
+ * @Last Modified time: 2020-10-20 01:35:16
  */
 
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { Table, Card, Button, message } from 'antd'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
 import EditorModal from './EditModal'
