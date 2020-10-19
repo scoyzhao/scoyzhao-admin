@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:08:39
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 15:52:57
+ * @Last Modified time: 2020-10-19 23:23:08
  */
 
 import React from 'react'
@@ -20,12 +20,12 @@ const Login = (props) => {
   ] = useLogin()
 
   const checkLogin = async () => {
-    const res = await login({ userName, password })
-    if (res.code !== 0) {
-      return message.error(res.msg)
+    try {
+      await login({ userName, password })
+      return props.history.replace('/index')
+    } catch (error) {
+      message.error(error.toString())
     }
-
-    return props.history.replace('/index')
   }
 
   return (

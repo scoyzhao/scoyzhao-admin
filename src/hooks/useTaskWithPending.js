@@ -2,30 +2,29 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 14:04:20
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 21:38:54
+ * @Last Modified time: 2020-10-20 00:44:26
  */
 
 import { useCallback } from 'react'
-import { message } from 'antd'
 
-const useTaskWithPending = (task, { setFalse, setTrue }) => {
+const useTaskWithPending = (task, { setLoading }) => {
   const useTaskWithPending = useCallback(
     async (payload) => {
-      setTrue()
+      setLoading(true)
       try {
         const result = await task(payload)
-        setFalse()
+        setLoading(false)
         if (result.code !== 0) {
-          return message.error(result.msg)
+          throw result.msg
         }
 
         return result
       } catch (error) {
-        setFalse()
-        return message.error(error.toString())
+        setLoading(false)
+        throw error
       }
     },
-    [task, setFalse, setTrue],
+    [task, setLoading],
   )
 
   return [useTaskWithPending]

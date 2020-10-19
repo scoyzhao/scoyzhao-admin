@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 14:21:03
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 16:56:32
+ * @Last Modified time: 2020-10-19 23:11:41
  */
 
 import useTaskPending from '../useTaskWithPending'
@@ -14,9 +14,9 @@ import { login } from '../../service/request/user'
 const useLogin = () => {
   const [userName, { set: setUserName }] = useString('')
   const [password, { set: setPassword }] = useString('')
-  const [loading, { setFalse, setTrue }] = useBoolean(false)
+  const [loading, { set: setLoading}] = useBoolean(false)
 
-  const [taskWithPending] = useTaskPending(login, { setTrue, setFalse })
+  const [taskWithPending] = useTaskPending(login, { setLoading })
   return [
     { userName, setUserName },
     { password, setPassword },

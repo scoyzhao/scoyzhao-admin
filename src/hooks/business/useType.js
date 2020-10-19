@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 16:35:32
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 21:19:15
+ * @Last Modified time: 2020-10-20 00:54:45
  */
 
 import useTaskPendingState from '../useTaskPendingState'
@@ -14,19 +14,19 @@ import {
   addType,
   deleteType,
   updateType,
-  getTypeList
+  getTypeList,
 } from '../../service/request/type'
 
 const useType = () => {
   const [typeList, { set: setTypeList }] = useArray([])
   const [type, { set: setEditorType }] = useObject({})
-  const [loading, { setFalse, setTrue }] = useBoolean(false)
+  const [loading, { set: setLoading }] = useBoolean(false)
 
-  const [addBlogType] = useTaskWithPending(deleteType, { setFalse, setTrue })
-  const [deleteBlogType] = useTaskWithPending(addType, { setFalse, setTrue })
-  const [updateBlogType] = useTaskWithPending(updateType, { setFalse, setTrue })
-  const [getList] = useTaskPendingState(getTypeList, setTypeList, { setFalse, setTrue })
-  const [getListById] = useTaskPendingState(getTypeList, setEditorType, { setFalse, setTrue })
+  const [addBlogType] = useTaskWithPending(addType, { setLoading })
+  const [deleteBlogType] = useTaskWithPending(deleteType, { setLoading })
+  const [updateBlogType] = useTaskWithPending(updateType, { setLoading })
+  const [getList] = useTaskPendingState(getTypeList, setTypeList, { setLoading })
+  const [getListById] = useTaskPendingState(getTypeList, setEditorType, { setLoading })
 
   return [
     type,

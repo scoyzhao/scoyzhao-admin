@@ -2,18 +2,14 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 12:00:52
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 12:04:01
+ * @Last Modified time: 2020-10-19 23:27:03
  */
 
 import useMethods from './useMethods'
 
 const booleanMethods = {
-  setTrue() {
-    return true
-  },
-
-  setFalse() {
-    return false
+  set(state, newState) {
+    return newState
   },
 }
 

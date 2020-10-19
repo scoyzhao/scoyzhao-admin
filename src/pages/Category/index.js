@@ -2,11 +2,11 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 21:42:21
+ * @Last Modified time: 2020-10-20 00:55:25
  */
 
-import { Table, Card, Button } from 'antd'
-import React, { useEffect } from 'react'
+import { Table, Card, Button, message } from 'antd'
+import React, { useEffect, useCallback } from 'react'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
 import useType from '../../hooks/business/useType'
 
@@ -15,16 +15,27 @@ const Category = () => {
     type,
     typeList,
     typeLoading,
-    // addBlogType,
-    // deleteBlogType,
-    // updateBlogType,
+    addBlogType,
+    deleteBlogType,
+    updateBlogType,
     getList,
     getListById,
   ] = useType()
 
+  const getTypeList = useCallback(
+    async () => {
+      try {
+        await getList({})
+      } catch (error) {
+        message.error(error.toString())
+      }
+    },
+    [getList]
+  )
+
   useEffect(() => {
-    getList()
-  }, [getList])
+    getTypeList()
+  }, [getTypeList])
 
   useEffect(() => {
     const { id } = type
@@ -34,7 +45,11 @@ const Category = () => {
   }, [type])
 
   const handleEdit = async (id) => {
-    await getListById({ id })
+    try {
+      await getListById({ id })
+    } catch (error) {
+      message.error(error.toString())
+    }
   }
 
   const typeColumns = [

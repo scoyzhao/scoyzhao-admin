@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:10:23
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 21:41:15
+ * @Last Modified time: 2020-10-20 00:35:47
  */
 
 // * 限制请求次数
@@ -29,9 +29,9 @@ instance.interceptors.response.use(response => {
   } else {
     return response.data
   }
-}, error => {
+}, async(error) => {
   // * 服务器非200，403会在这里捕获
-  return Promise.reject(error)
+  await Promise.reject(error)
 })
 
 export default instance

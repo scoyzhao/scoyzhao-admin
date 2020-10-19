@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 01:05:24
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 16:00:24
+ * @Last Modified time: 2020-10-19 23:24:04
  */
 
 import React, { useState } from 'react'
@@ -47,12 +47,12 @@ const Index = (props) => {
   }
 
   const handleLogout = async () => {
-    const res = await logout()
-    if (res.code !== 0) {
-      return message.error(res.msg)
+    try {
+      await logout()
+      props.history.push('/')
+    } catch (error) {
+      message.error(error.toString())
     }
-
-    props.history.push('/')
   }
 
   return (
