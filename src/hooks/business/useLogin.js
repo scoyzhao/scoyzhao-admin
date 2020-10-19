@@ -2,18 +2,14 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 14:21:03
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 15:47:23
+ * @Last Modified time: 2020-10-19 16:56:32
  */
 
 import useTaskPending from '../useTaskWithPending'
 import useBoolean from '../useBoolean'
 import useString from '../useString'
-import http from '../../service/http'
-import API from '../../service/api'
+import { login } from '../../service/request/user'
 
-const login = (payload) => {
-  return http.post(API.LOGIN, payload)
-}
 
 const useLogin = () => {
   const [userName, { set: setUserName }] = useString('')

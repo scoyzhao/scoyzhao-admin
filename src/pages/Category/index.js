@@ -2,70 +2,99 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 11:19:05
+ * @Last Modified time: 2020-10-19 21:42:21
  */
 
-import { Table, Card, message } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Table, Card, Button } from 'antd'
+import React, { useEffect } from 'react'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
-import API from '../../service/api'
-import http from '../../service/http'
+import useType from '../../hooks/business/useType'
 
 const Category = () => {
-  // const [tageList, setTageList] = useState([])
-  const [typeList, setTypeList] = useState([])
-  const [typeLoading, setTypeLoading] = useState(false)
+  const [
+    type,
+    typeList,
+    typeLoading,
+    // addBlogType,
+    // deleteBlogType,
+    // updateBlogType,
+    getList,
+    getListById,
+  ] = useType()
 
   useEffect(() => {
     getList()
-  }, [])
+  }, [getList])
 
-  const getList = async () => {
-    setTypeLoading(true)
-    try {
-      const res = await http.get(API.GET_TYPE_LIST)
-      if (res.code === 0) {
-        setTypeList(res.data.result)
-      } else {
-        message.error(res.msg)
-      }
-    } catch (error) {
-      message.error(error.toString())
+  useEffect(() => {
+    const { id } = type
+    if (id) {
+      console.log(id)
     }
+  }, [type])
 
-    setTimeout(() => {
-      setTypeLoading(false)
-    }, 500)
+  const handleEdit = async (id) => {
+    await getListById({ id })
   }
 
   const typeColumns = [
     {
       title: '类型名称',
+      width: '40%',
       dataIndex: 'name',
     },
     {
       title: '描述',
+      width: '30%',
       dataIndex: 'description',
     },
     {
       title: '操作',
-      dataIndex: 'address',
+      width: '30%',
+      render: record => {
+        const { id } = record
+        return (
+          <>
+            <Button
+              type='primary'
+              onClick={() => handleEdit(id)}
+            >
+              编辑
+            </Button>
+            <Button
+              style={{ marginLeft: '20px' }}
+              type='danger'
+            >
+              删除
+            </Button>
+          </>
+        )
+      }
     },
   ];
 
   return (
     <PageHeaderWrapper header={['类别管理']}>
-      <Card>
+      <Card
+        title='类型'
+        hoverable
+      >
         <Table
           columns={typeColumns}
           dataSource={typeList}
+          rowKey='id'
           loading={typeLoading}
         />
       </Card>
-      <Card>
+      <Card
+        style={{ marginTop: '20px' }}
+        title='标签'
+        hoverable
+      >
         <Table
           columns={typeColumns}
           dataSource={typeList}
+          rowKey='id'
           loading={typeLoading}
         />
       </Card>

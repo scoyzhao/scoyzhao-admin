@@ -2,17 +2,12 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 15:49:27
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 15:58:05
+ * @Last Modified time: 2020-10-19 16:58:19
  */
 
 import useTaskPending from '../useTaskWithPending'
 import useBoolean from '../useBoolean'
-import http from '../../service/http'
-import API from '../../service/api'
-
-const logout = () => {
-  return http.get(API.LOGOUT)
-}
+import { logout } from '../../service/request/user'
 
 const useLogout = () => {
   const [loading, { setFalse, setTrue }] = useBoolean(false)
