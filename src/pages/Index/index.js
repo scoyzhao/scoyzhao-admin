@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 01:05:24
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-16 11:27:25
+ * @Last Modified time: 2020-10-19 16:00:24
  */
 
 import React, { useState } from 'react'
@@ -16,19 +16,23 @@ import {
   // UserOutlined,
 } from '@ant-design/icons'
 
+import useLogout from '../../hooks/business/useLogout'
 import Overveiw from '../Overview'
 import Category from '../Category'
 
-import http from '../../service/http'
-import API from '../../service/api'
 import './index.css'
 
 const { Header, Content, Footer, Sider } = Layout
 const { Item } = Menu
 // const { SubMenu } = Menu
 
-// TODO add exit
 const Index = (props) => {
+  const [
+    logout,
+    loading,
+  ] = useLogout()
+
+
   const [collapsed, setCollapsed] = useState(false)
   const onCollapse = collapsed => {
     setCollapsed(collapsed)
@@ -42,18 +46,13 @@ const Index = (props) => {
     }
   }
 
-  const logout = async () => {
-    try {
-      const res = await http.get(API.LOGOUT)
-
-      if (res.code !== 0) {
-        message.error(res.msg)
-      } else {
-        props.history.push('/login')
-      }
-    } catch (error) {
-      message.error(error.toString())
+  const handleLogout = async () => {
+    const res = await logout()
+    if (res.code !== 0) {
+      return message.error(res.msg)
     }
+
+    props.history.push('/')
   }
 
   return (
@@ -88,7 +87,8 @@ const Index = (props) => {
           <Button
             className='site-layout-header-button'
             type='danger'
-            onClick={logout}
+            loading={loading}
+            onClick={handleLogout}
           >
             退出登录
           </Button>

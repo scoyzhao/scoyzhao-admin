@@ -2,46 +2,30 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:08:39
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-16 11:47:01
+ * @Last Modified time: 2020-10-19 15:52:57
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, Card, Input, Row, Col, message } from 'antd'
-// TODO shot root
-import http from '../../service/http'
-import API from '../../service/api'
+import useLogin from '../../hooks/business/useLogin'
 
 import './index.css'
 
 const Login = (props) => {
-  const [userName, setUserName] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [
+    { userName, setUserName },
+    { password, setPassword },
+    login,
+    loading,
+  ] = useLogin()
 
   const checkLogin = async () => {
-    if (!userName || !password) {
-      message.error('账号名/密码不能为空')
-    } else {
-      setIsLoading(true)
-      try {
-        const res = await http.post(API.LOGIN, {
-          userName,
-          password,
-        })
-
-        if (res.code !== 0) {
-          message.error(res.msg)
-        } else {
-          props.history.replace('/index')
-        }
-      } catch (error) {
-        message.error(error.toString())
-      }
-
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 500)
+    const res = await login({ userName, password })
+    if (res.code !== 0) {
+      return message.error(res.msg)
     }
+
+    return props.history.replace('/index')
   }
 
   return (
@@ -55,7 +39,7 @@ const Login = (props) => {
         <Card
           style={{ width: 400 }}
           title='scoyzhao-admin'
-          loading={isLoading}
+          loading={loading}
           bordered={true}
         >
           <Input

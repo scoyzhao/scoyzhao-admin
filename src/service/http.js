@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:10:23
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-16 11:31:05
+ * @Last Modified time: 2020-10-19 14:14:32
  */
 
 import axios from 'axios'
@@ -29,6 +29,7 @@ instance.interceptors.response.use(response => {
     return response.data
   }
 }, error => {
+  // * 服务器非200，403会在这里捕获
   return Promise.reject(error)
 })
 
