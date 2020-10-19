@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:11:25
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-16 01:41:10
+ * @Last Modified time: 2020-10-16 17:39:36
  */
 
 const API = {
@@ -11,6 +11,11 @@ const API = {
 
   LOGIN: '/user/login',
   LOGOUT: '/user/logout',
+
+  ADD_TYPE: '/type/addType',
+  DELETE_TYPE: '/type/deleteType',
+  UPDATE_TYPE: '/type/updateType',
+  GET_TYPE_LIST: '/type/getTypeList',
 }
 
 export default API
