@@ -2,11 +2,11 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 17:09:29
+ * @Last Modified time: 2020-10-20 20:11:51
  */
 
 import React, { useEffect } from 'react'
-import { Table, Card, Button, message } from 'antd'
+import { Table, Card, Button, Popconfirm, message } from 'antd'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
 import EditorModal from './EditModal'
 import useType from '../../hooks/business/useType'
@@ -21,9 +21,10 @@ const Category = () => {
     updateBlogType,
     getList,
     getListById,
-    isEditModalVisible,
-    showEditModal,
-    editModalLoading,
+    modalVisible,
+    setModalVisible,
+    modalLoading,
+    setEditorType,
   ] = useType()
 
   useEffect(() => {
@@ -37,16 +38,28 @@ const Category = () => {
     getTypeList()
   }, [getList])
 
-  useEffect(() => {
-    const { id } = type
-    if (id) {
-      showEditModal(true)
-    }
-  }, [showEditModal, type])
-
   const handleEdit = async (id) => {
     try {
       await getListById({ id })
+      setModalVisible(true)
+    } catch (error) {
+      message.error(error.toString())
+    }
+  }
+
+  const handleAdd = () => {
+    try {
+      setEditorType({})
+      setModalVisible(true)
+    } catch (error) {
+      message.error(error.toString())
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteBlogType({ id })
+      await getList({})
     } catch (error) {
       message.error(error.toString())
     }
@@ -67,7 +80,7 @@ const Category = () => {
       title: '操作',
       width: '30%',
       render: record => {
-        const { id } = record
+        const { id, name } = record
         return (
           <>
             <Button
@@ -76,12 +89,17 @@ const Category = () => {
             >
               编辑
             </Button>
-            <Button
-              style={{ marginLeft: '20px' }}
-              type='danger'
+            <Popconfirm
+              title={`确定要删除标签 ${name} 吗?`}
+              onConfirm={() => handleDelete(id)}
             >
-              删除
+              <Button
+                style={{ marginLeft: '20px' }}
+                type='danger'
+              >
+                删除
             </Button>
+            </Popconfirm>
           </>
         )
       }
@@ -96,7 +114,7 @@ const Category = () => {
         extra={(
           <Button
             type='primary'
-          // onClick={() => handleEdit(id)}
+            onClick={handleAdd}
           >
             新增类型
           </Button>
@@ -122,11 +140,11 @@ const Category = () => {
         />
       </Card>
       {
-        isEditModalVisible &&
+        modalVisible &&
         <EditorModal
           type={type}
-          showEditModal={showEditModal}
-          loading={editModalLoading}
+          setModalVisible={setModalVisible}
+          loading={modalLoading}
           addBlogType={addBlogType}
           updateBlogType={updateBlogType}
           getList={getList}

@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-20 01:00:19
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 16:48:27
+ * @Last Modified time: 2020-10-20 19:56:52
  */
 
 import React from 'react'
@@ -18,7 +18,7 @@ const formItemLayout = {
   },
 }
 
-const EditModal = ({ type, showEditModal, getList, addBlogType, updateBlogType, loading }) => {
+const EditModal = ({ type, setModalVisible, getList, addBlogType, updateBlogType, loading }) => {
   const { id, name, description } = type
   const [form] = Form.useForm()
 
@@ -40,7 +40,7 @@ const EditModal = ({ type, showEditModal, getList, addBlogType, updateBlogType, 
 
     try {
       await fn(payload)
-      showEditModal(false)
+      setModalVisible(false)
       getList({})
     } catch (error) {
       message.error(error.toString())
@@ -53,7 +53,7 @@ const EditModal = ({ type, showEditModal, getList, addBlogType, updateBlogType, 
       visible
       confirmLoading={loading}
       onOk={submit}
-      onCancel={() => showEditModal(false)}
+      onCancel={() => setModalVisible(false)}
     >
       <Form {...formItemLayout} form={form} initialValues={{
         name: id? name: '',

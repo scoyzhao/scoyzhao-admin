@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 16:35:32
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 16:44:41
+ * @Last Modified time: 2020-10-20 19:55:39
  */
 
 import useTaskPendingState from '../useTaskPendingState'
@@ -28,7 +28,7 @@ const useType = () => {
   const [updateBlogType] = useTaskWithPending(updateType, { setLoading: setModalLoading })
   const [getList] = useTaskPendingState(getTypeList, setTypeList, { setLoading })
   const [getListById] = useTaskPendingState(getTypeList, setEditorType, { setLoading })
-  const [isEditModalVisible, { set: showEditModal }] = useBoolean(false)
+  const [modalVisible, { set: setModalVisible }] = useBoolean(false)
 
   return [
     type,
@@ -39,9 +39,10 @@ const useType = () => {
     updateBlogType,
     getList,
     getListById,
-    isEditModalVisible,
-    showEditModal,
+    modalVisible,
+    setModalVisible,
     modalLoading,
+    setEditorType,
   ]
 }
 
