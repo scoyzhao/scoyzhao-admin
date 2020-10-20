@@ -2,48 +2,80 @@
  * @Author: scoyzhao
  * @Date: 2020-10-20 01:00:19
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 01:47:14
+ * @Last Modified time: 2020-10-20 16:48:27
  */
 
 import React from 'react'
-import { Modal, Form, Input } from 'antd'
+import { Modal, Form, Input, message } from 'antd'
 
 const { Item } = Form
 const formItemLayout = {
   labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
+    sm: { span: 4 },
   },
   wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
+    sm: { span: 18 },
   },
-};
+}
 
-const EditModal = ({ type, showEditModal }) => {
+const EditModal = ({ type, showEditModal, getList, addBlogType, updateBlogType, loading }) => {
   const { id, name, description } = type
   const [form] = Form.useForm()
+
+  const submit = async() => {
+    let payload = {}
+    try {
+      payload = await form.validateFields()
+    } catch (errorInfo) {
+      return message.error('表单格式错误，请检查')
+    }
+
+    let fn = addBlogType
+    if (id) {
+      fn = updateBlogType
+      Object.assign(payload, {
+        id,
+      })
+    }
+
+    try {
+      await fn(payload)
+      showEditModal(false)
+      getList({})
+    } catch (error) {
+      message.error(error.toString())
+    }
+  }
 
   return (
     <Modal
       title={`${id ? '编辑标签' : '新增标签'}`}
       visible
+      confirmLoading={loading}
+      onOk={submit}
       onCancel={() => showEditModal(false)}
     >
-      <Form {...formItemLayout} >
-        <Item label='标签名'>
-          {form.getFieldDecorator('name', {
-            initiaValue: name? name: '',
-            rules: [{
+      <Form {...formItemLayout} form={form} initialValues={{
+        name: id? name: '',
+        description: id? description: '',
+      }}>
+        <Item
+          name='name'
+          label='标签名'
+          rules = {[
+            {
               required: true,
               message: '请输入标签名',
-            }],
-          })(<Input />)}
+            },
+          ]}
+        >
+          <Input disabled={id}/>
         </Item>
-        <Item label='备注'>
-          {form.getFieldDecorator('description', {
-            initiaValue: description ? description : '',
-          })(<Input />)}
+        <Item
+          name='description'
+          label='描述'
+        >
+          <Input />
         </Item>
       </Form>
     </Modal>

@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 01:35:16
+ * @Last Modified time: 2020-10-20 17:09:29
  */
 
 import React, { useEffect } from 'react'
@@ -23,6 +23,7 @@ const Category = () => {
     getListById,
     isEditModalVisible,
     showEditModal,
+    editModalLoading,
   ] = useType()
 
   useEffect(() => {
@@ -92,6 +93,14 @@ const Category = () => {
       <Card
         title='类型'
         hoverable
+        extra={(
+          <Button
+            type='primary'
+          // onClick={() => handleEdit(id)}
+          >
+            新增类型
+          </Button>
+        )}
       >
         <Table
           columns={typeColumns}
@@ -113,7 +122,15 @@ const Category = () => {
         />
       </Card>
       {
-        isEditModalVisible && <EditorModal type={type} showEditModal={showEditModal} />
+        isEditModalVisible &&
+        <EditorModal
+          type={type}
+          showEditModal={showEditModal}
+          loading={editModalLoading}
+          addBlogType={addBlogType}
+          updateBlogType={updateBlogType}
+          getList={getList}
+        />
       }
     </PageHeaderWrapper>
   )

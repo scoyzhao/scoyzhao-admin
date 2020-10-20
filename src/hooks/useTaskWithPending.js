@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 14:04:20
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 00:44:26
+ * @Last Modified time: 2020-10-20 16:33:42
  */
 
 import { useCallback } from 'react'
@@ -15,7 +15,7 @@ const useTaskWithPending = (task, { setLoading }) => {
         const result = await task(payload)
         setLoading(false)
         if (result.code !== 0) {
-          throw result.msg
+          throw new Error(result.msg)
         }
 
         return result
