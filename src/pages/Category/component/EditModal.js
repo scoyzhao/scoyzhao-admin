@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-20 01:00:19
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 19:56:52
+ * @Last Modified time: 2020-10-20 20:49:05
  */
 
 import React from 'react'
@@ -18,11 +18,11 @@ const formItemLayout = {
   },
 }
 
-const EditModal = ({ type, setModalVisible, getList, addBlogType, updateBlogType, loading }) => {
+const EditModal = ({ type, setModalVisible, getList, addBlogType, updateBlogType, loading, keyword }) => {
   const { id, name, description } = type
   const [form] = Form.useForm()
 
-  const submit = async() => {
+  const submit = async () => {
     let payload = {}
     try {
       payload = await form.validateFields()
@@ -49,27 +49,27 @@ const EditModal = ({ type, setModalVisible, getList, addBlogType, updateBlogType
 
   return (
     <Modal
-      title={`${id ? '编辑标签' : '新增标签'}`}
+      title={`${id ? `编辑${keyword}` : `新增${keyword}`}`}
       visible
       confirmLoading={loading}
       onOk={submit}
       onCancel={() => setModalVisible(false)}
     >
       <Form {...formItemLayout} form={form} initialValues={{
-        name: id? name: '',
-        description: id? description: '',
+        name: id ? name : '',
+        description: id ? description : '',
       }}>
         <Item
           name='name'
-          label='标签名'
-          rules = {[
+          label={`${keyword}名`}
+          rules={[
             {
               required: true,
-              message: '请输入标签名',
+              message: `请输入${keyword}`,
             },
           ]}
         >
-          <Input disabled={id}/>
+          <Input disabled={id} />
         </Item>
         <Item
           name='description'
