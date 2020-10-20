@@ -2,10 +2,10 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 20:11:51
+ * @Last Modified time: 2020-10-20 20:23:30
  */
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Table, Card, Button, Popconfirm, message } from 'antd'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
 import EditorModal from './EditModal'
@@ -27,6 +27,8 @@ const Category = () => {
     setEditorType,
   ] = useType()
 
+  const isFirstRender = useRef(true)
+
   useEffect(() => {
     const getTypeList = async () => {
       try {
@@ -38,10 +40,18 @@ const Category = () => {
     getTypeList()
   }, [getList])
 
-  const handleEdit = async (id) => {
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+
+    setModalVisible(true)
+  }, [setModalVisible, type])
+
+  const handleEdit = (id) => {
     try {
-      await getListById({ id })
-      setModalVisible(true)
+      getListById({ id })
     } catch (error) {
       message.error(error.toString())
     }
@@ -50,7 +60,6 @@ const Category = () => {
   const handleAdd = () => {
     try {
       setEditorType({})
-      setModalVisible(true)
     } catch (error) {
       message.error(error.toString())
     }
