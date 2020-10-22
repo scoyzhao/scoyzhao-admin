@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 18:15:01
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 21:42:41
+ * @Last Modified time: 2020-10-22 16:16:35
  */
 
  // TODO optimize useObject
@@ -10,7 +10,7 @@ import useMethods from './useMethods'
 
 const ObjectMethods = {
   set(state, newValue) {
-    return newValue
+    return { ...state, ...newValue}
   }
 }
 

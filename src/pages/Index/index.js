@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 01:05:24
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-19 23:24:04
+ * @Last Modified time: 2020-10-22 16:38:01
  */
 
 import React, { useState } from 'react'
@@ -13,18 +13,20 @@ import {
   PieChartOutlined,
   // FileOutlined,
   // TeamOutlined,
-  // UserOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
 
 import useLogout from '../../hooks/business/useLogout'
 import Overveiw from '../Overview'
 import Category from '../Category'
+import BlogEdit from '../Ariticle/Edit'
+import BlogList from '../Ariticle/List'
 
 import './index.css'
 
-const { Header, Content, Footer, Sider } = Layout
+const { Content, Footer, Sider } = Layout
 const { Item } = Menu
-// const { SubMenu } = Menu
+const { SubMenu } = Menu
 
 const Index = (props) => {
   const [
@@ -70,38 +72,32 @@ const Index = (props) => {
           <Item key='category' icon={<DesktopOutlined />}>
             类别管理
           </Item>
-          {/* <SubMenu key='sub1' icon={<UserOutlined />} title='User'>
-            <Menu.Item key='3'>Tom</Menu.Item>
-            <Menu.Item key='4'>Bill</Menu.Item>
-            <Menu.Item key='5'>Alex</Menu.Item>
+          <SubMenu key='sub1' icon={<UserOutlined />} title='博客管理'>
+            <Item key='blog/list'>博客列表</Item>
+            <Item key='blog/edit'>博客编辑</Item>
           </SubMenu>
-          <SubMenu key='sub2' icon={<TeamOutlined />} title='Team'>
-            <Menu.Item key='6'>Team 1</Menu.Item>
-            <Menu.Item key='8'>Team 2</Menu.Item>
-          </SubMenu>
-          <Menu.Item key='9' icon={<FileOutlined />} /> */}
         </Menu>
       </Sider>
       <Layout className='site-layout'>
-        <Header className='site-layout-header' style={{ padding: 0 }}>
-          <Button
-            className='site-layout-header-button'
-            type='danger'
-            loading={loading}
-            onClick={handleLogout}
-          >
-            退出登录
+        <Button
+          className='site-layout-header-button'
+          type='danger'
+          loading={loading}
+          onClick={handleLogout}
+        >
+          退出登录
           </Button>
-        </Header>
         <Content style={{ margin: '0 16px' }}>
           <>
             <Route path='/index' exact component={Overveiw} />
             <Route path='/index/category' exact component={Category} />
+            <Route path='/index/blog/list' exact component={BlogList} />
+            <Route path='/index/blog/edit' exact component={BlogEdit} />
           </>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </Layout>
-    </Layout>
+    </Layout >
   )
 }
 
