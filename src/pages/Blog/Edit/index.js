@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 10:46:30
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-22 16:35:57
+ * @Last Modified time: 2020-10-23 01:40:00
  */
 
 import React from 'react'
@@ -10,7 +10,7 @@ import { Card, Input, Form, Select, Button, Row, Col, message } from 'antd'
 import PageHeaderWrapper from '../../../component/PageHeaderWrapper'
 import Editor from 'for-editor'
 
-import useAriticleEdit from '../../../hooks/business/useAriticleEdit'
+import useBlogEdit from '../../../hooks/business/useBlogEdit'
 import { useEffect } from 'react'
 import { useForm } from 'antd/lib/form/Form'
 
@@ -29,18 +29,21 @@ const formItemLayout = {
   },
 }
 
-const Ariticle = (props) => {
+const BlogEdit = (props) => {
   const [
-    ariticle,
+    blog,
     content,
-    setAriticle,
+    setBlog,
     setContent,
     typeList,
     tagList,
     getTypes,
     getTages,
     loading,
-  ] = useAriticleEdit()
+    addBlog,
+    updateBlog,
+    editLoading,
+  ] = useBlogEdit()
 
   useEffect(() => {
     getTages()
@@ -52,33 +55,110 @@ const Ariticle = (props) => {
   useEffect(() => {
     const draft = localStorage.getItem(SCOYZHAO_BLOG_DRAFT)
     if (draft) {
-      setAriticle(JSON.parse(draft))
+      setBlog(JSON.parse(draft))
       setContent(JSON.parse(draft).content)
     }
-  }, [setAriticle, setContent])
+  }, [setBlog, setContent])
 
   const handleChange = (value) => {
     setContent(value)
-    setAriticle({
+    setBlog({
       content: value,
     })
   }
 
-  const saveDraft = () => {
+  const handleSaveDraft = () => {
+    const draft = JSON.parse(localStorage.getItem(SCOYZHAO_BLOG_DRAFT))
     try {
-      const newAriticle = Object.assign({}, { content }, form.getFieldsValue())
-      setAriticle(newAriticle)
-      localStorage.setItem(SCOYZHAO_BLOG_DRAFT, JSON.stringify(newAriticle))
+      let newBlog = Object.assign({}, { content }, form.getFieldsValue())
+      // * 如果有草稿，可能有id，这里处理下
+      if (draft?.id) {
+        newBlog = Object.assign({}, newBlog, { id: draft.id })
+      }
+      setBlog(newBlog)
+      localStorage.setItem(SCOYZHAO_BLOG_DRAFT, JSON.stringify(newBlog))
       message.info('草稿已保存')
     } catch (error) {
+      console.log("handleSaveDraft -> error", error)
       message.info('草稿保存失败')
+    }
+  }
+
+  const handleSaveBlog = async () => {
+    try {
+      await form.validateFields()
+    } catch (error) {
+      message.error('请完善表单')
+    }
+
+    handleSaveDraft()
+    handleSubmit()
+  }
+
+  const handleSubmit = async () => {
+    const draft = JSON.parse(localStorage.getItem(SCOYZHAO_BLOG_DRAFT))
+    // * 补全字段，否则为undefined，无法修改数据库字段
+    const newBlog = Object.assign({}, {
+      tags: [],
+      abstract: ''
+    }, draft)
+
+    const { id } = newBlog
+    if (id) {
+      try {
+        const result = await updateBlog({
+          id,
+          payload: newBlog
+        })
+
+        if (result.code !== 0) {
+          return message.error(result.msg)
+        }
+
+        return message.success(result.msg)
+      } catch (error) {
+        return message.error(error.msg)
+      }
+    } else {
+      try {
+        const result = await addBlog(newBlog)
+
+        if (result.code !== 0) {
+          return message.error(result.msg)
+        }
+
+        // * 新增的话给草稿加上id
+        const newDraft = Object.assign({}, { id: result.data }, newBlog)
+        localStorage.setItem(SCOYZHAO_BLOG_DRAFT, JSON.stringify(newDraft))
+        return message.success('保存成功')
+      } catch (error) {
+        return message.error(error.toString())
+      }
+    }
+  }
+
+  const handleDeleteDraft = () => {
+    try {
+      form.setFieldsValue({
+        title: undefined,
+        abstract: undefined,
+        tags: undefined,
+        type: undefined,
+      })
+      setContent('')
+      setBlog({})
+      localStorage.removeItem(SCOYZHAO_BLOG_DRAFT)
+      console.log("handleDeleteDraft -> blog", blog)
+      message.info('草稿已保存')
+    } catch (error) {
+      message.error(error.toString())
     }
   }
 
   return (
     <PageHeaderWrapper header={['博客管理', '博客编辑']}>
       <Card loading={loading}>
-        <Form {...formItemLayout} form={form} initialValues={ariticle}>
+        <Form {...formItemLayout} form={form} initialValues={blog}>
           <Row>
             <Col span={12}>
               <Item
@@ -159,15 +239,24 @@ const Ariticle = (props) => {
                 </Select>
               </Item>
             </Col>
-            <Col offset={8}>
-              <Button onClick={saveDraft}>
+            <Col offset={6}>
+              <Button onClick={handleSaveDraft}>
                 暂存
               </Button>
               <Button
                 style={{ marginLeft: '20px' }}
-                type='primary'
+                type='danger'
+                onClick={handleDeleteDraft}
               >
-                保存文章
+                清除草稿
+              </Button>
+              <Button
+                style={{ marginLeft: '20px' }}
+                type='primary'
+                loading={editLoading}
+                onClick={handleSaveBlog}
+              >
+                保存博客
               </Button>
             </Col>
           </Row>
@@ -177,11 +266,11 @@ const Ariticle = (props) => {
           preview
           subfield
           onChange={(value) => handleChange(value)}
-          onSave={saveDraft}
+          onSave={handleSaveDraft}
         />
       </Card>
     </PageHeaderWrapper>
   )
 }
 
-export default Ariticle
+export default BlogEdit

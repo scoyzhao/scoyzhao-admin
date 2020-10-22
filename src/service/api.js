@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:11:25
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 21:04:26
+ * @Last Modified time: 2020-10-22 23:44:14
  */
 
 const API = {
@@ -21,6 +21,9 @@ const API = {
   DELETE_TAG: '/tag/deleteTag',
   UPDATE_TAG: '/tag/updateTag',
   GET_TAG_LIST: '/tag/getTagList',
+
+  ADD_BLOG: '/blog/addBlog',
+  UPDATE_BLOG: '/blog/updateBlog',
 }
 
 export default API

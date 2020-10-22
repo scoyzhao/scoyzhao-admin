@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 01:05:24
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-22 16:38:01
+ * @Last Modified time: 2020-10-22 23:34:17
  */
 
 import React, { useState } from 'react'
@@ -19,8 +19,8 @@ import {
 import useLogout from '../../hooks/business/useLogout'
 import Overveiw from '../Overview'
 import Category from '../Category'
-import BlogEdit from '../Ariticle/Edit'
-import BlogList from '../Ariticle/List'
+import BlogEdit from '../Blog/Edit'
+import BlogList from '../Blog/List'
 
 import './index.css'
 
