@@ -2,32 +2,26 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:05:22
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 01:13:10
+ * @Last Modified time: 2020-10-23 11:14:40
  */
-import React, { useEffect } from 'react'
-import http from '../../service/http'
-import API from '../../service/api'
-
+import React from 'react'
+import { Row, Col } from 'antd'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
+import Introduction from './Introduction'
+import Todo from './Todo'
 
 const Overview = () => {
-  useEffect(() => {
-    const testAuth = async () => {
-      try {
-        await http.get(API.TEST_AUTH)
-      } catch (error) {
-        console.log("testAuth -> error", error)
-      }
-    }
-
-    testAuth()
-  }, [])
-
   return (
     <>
       <PageHeaderWrapper header={['概览']}>
-        TODO 添加概览页面
-        TODO 相对地址实现
+        <Row gutter={15}>
+          <Col span={16}>
+            <Introduction />
+          </Col>
+          <Col span={8}>
+            <Todo />
+          </Col>
+        </Row>
       </PageHeaderWrapper>
     </>
   )

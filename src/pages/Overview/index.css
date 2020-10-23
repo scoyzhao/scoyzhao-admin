@@ -1,0 +1,13 @@
+.overview_name {
+  color: #393b44;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+.overview_slogan {
+  font-size: 1rem;
+  color: #999;
+  display: inline-block;
+  padding-top: 0.8rem;
+}
