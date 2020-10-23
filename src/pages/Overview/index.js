@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:05:22
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 11:14:40
+ * @Last Modified time: 2020-10-23 11:16:28
  */
 import React from 'react'
 import { Row, Col } from 'antd'
@@ -14,7 +14,10 @@ const Overview = () => {
   return (
     <>
       <PageHeaderWrapper header={['概览']}>
-        <Row gutter={15}>
+        <Row
+          style={{ marginTop: '50px' }}
+          gutter={15}
+        >
           <Col span={16}>
             <Introduction />
           </Col>

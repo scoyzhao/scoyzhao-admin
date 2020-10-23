@@ -2,12 +2,13 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 10:46:30
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 01:40:00
+ * @Last Modified time: 2020-10-23 11:37:15
  */
 
 import React from 'react'
 import { Card, Input, Form, Select, Button, Row, Col, message } from 'antd'
 import PageHeaderWrapper from '../../../component/PageHeaderWrapper'
+import Loading from '../../../component/Loading/index'
 import Editor from 'for-editor'
 
 import useBlogEdit from '../../../hooks/business/useBlogEdit'
@@ -157,118 +158,122 @@ const BlogEdit = (props) => {
 
   return (
     <PageHeaderWrapper header={['博客管理', '博客编辑']}>
-      <Card loading={loading}>
-        <Form {...formItemLayout} form={form} initialValues={blog}>
-          <Row>
-            <Col span={12}>
-              <Item
-                name='title'
-                label='标题'
-                rules={[
-                  {
-                    required: true,
-                    message: '标题不能为空',
-                  },
-                ]}
-              >
-                <Input />
-              </Item>
-            </Col>
-            <Col span={12}>
-              <Item
-                name='abstract'
-                label='简介'
-              >
-                <TextArea rows={2} />
-              </Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Item
-                name='type'
-                label='类型'
-                rules={[
-                  {
-                    required: true,
-                    message: '类型不能为空',
-                  },
-                ]}
-              >
-                <Select
-                  showSearch
-                  allowClear
-                  style={{ width: 200 }}
-                  placeholder='请选择博客类型'
-                  optionFilterProp='children'
-                  filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {
-                    typeList.map(el => (
-                      <Option key={el.id} value={el.id}>{el.name}</Option>
-                    ))
-                  }
-                </Select>
-              </Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Item
-                name='tags'
-                label='标签'
-              >
-                <Select
-                  showSearch
-                  allowClear
-                  mode='multiple'
-                  style={{ width: '100%' }}
-                  placeholder='请选择标签'
-                  optionFilterProp='children'
-                  filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {
-                    tagList.map(el => (
-                      <Option key={el.id} value={el.id}>{el.name}</Option>
-                    ))
-                  }
-                </Select>
-              </Item>
-            </Col>
-            <Col offset={6}>
-              <Button onClick={handleSaveDraft}>
-                暂存
+      {
+        loading
+          ? <Loading />
+          : <Card>
+            <Form {...formItemLayout} form={form} initialValues={blog}>
+              <Row>
+                <Col span={12}>
+                  <Item
+                    name='title'
+                    label='标题'
+                    rules={[
+                      {
+                        required: true,
+                        message: '标题不能为空',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Item>
+                </Col>
+                <Col span={12}>
+                  <Item
+                    name='abstract'
+                    label='简介'
+                  >
+                    <TextArea rows={2} />
+                  </Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Item
+                    name='type'
+                    label='类型'
+                    rules={[
+                      {
+                        required: true,
+                        message: '类型不能为空',
+                      },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      allowClear
+                      style={{ width: 200 }}
+                      placeholder='请选择博客类型'
+                      optionFilterProp='children'
+                      filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {
+                        typeList.map(el => (
+                          <Option key={el.id} value={el.id}>{el.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Item
+                    name='tags'
+                    label='标签'
+                  >
+                    <Select
+                      showSearch
+                      allowClear
+                      mode='multiple'
+                      style={{ width: '100%' }}
+                      placeholder='请选择标签'
+                      optionFilterProp='children'
+                      filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {
+                        tagList.map(el => (
+                          <Option key={el.id} value={el.id}>{el.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </Item>
+                </Col>
+                <Col offset={6}>
+                  <Button onClick={handleSaveDraft}>
+                    暂存
               </Button>
-              <Button
-                style={{ marginLeft: '20px' }}
-                type='danger'
-                onClick={handleDeleteDraft}
-              >
-                清除草稿
+                  <Button
+                    style={{ marginLeft: '20px' }}
+                    type='danger'
+                    onClick={handleDeleteDraft}
+                  >
+                    清除草稿
               </Button>
-              <Button
-                style={{ marginLeft: '20px' }}
-                type='primary'
-                loading={editLoading}
-                onClick={handleSaveBlog}
-              >
-                保存博客
+                  <Button
+                    style={{ marginLeft: '20px' }}
+                    type='primary'
+                    loading={editLoading}
+                    onClick={handleSaveBlog}
+                  >
+                    保存博客
               </Button>
-            </Col>
-          </Row>
-        </Form>
-        <Editor
-          value={content}
-          preview
-          subfield
-          onChange={(value) => handleChange(value)}
-          onSave={handleSaveDraft}
-        />
-      </Card>
+                </Col>
+              </Row>
+            </Form>
+            <Editor
+              value={content}
+              preview
+              subfield
+              onChange={(value) => handleChange(value)}
+              onSave={handleSaveDraft}
+            />
+          </Card>
+      }
     </PageHeaderWrapper>
   )
 }
