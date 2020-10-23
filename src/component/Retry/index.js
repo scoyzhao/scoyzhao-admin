@@ -1,14 +1,14 @@
 /*
  * @Author: scoyzhao
- * @Date: 2020-10-23 11:22:52
+ * @Date: 2020-10-23 19:36:16
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 15:10:12
+ * @Last Modified time: 2020-10-23 21:17:41
  */
-
 import React from 'react'
-import { Spin, Row, Col } from 'antd'
+import { Row, Col } from 'antd'
+import './index.css'
 
-const Loading = ({ height }) => {
+const Retry = ({ height }) => {
   return (
     <Row
       style={{ height: height ?? '100vh', backgroundColor: 'white' }}
@@ -17,10 +17,10 @@ const Loading = ({ height }) => {
       align='middle'
     >
       <Col>
-        <Spin size='large' />
+        <div className='error_content'>获取页面数据失败/(ㄒoㄒ)/~~</div>
       </Col>
     </Row>
   )
 }
 
-export default Loading
+export default Retry
