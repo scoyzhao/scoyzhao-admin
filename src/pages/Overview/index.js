@@ -2,11 +2,15 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:05:22
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 11:16:28
+ * @Last Modified time: 2020-10-24 16:26:42
  */
-import React from 'react'
+
+import React, { Suspense } from 'react'
 import { Row, Col } from 'antd'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
+import ErrorBoundary from '../../component/ErrorBoundary'
+import Retry from '../../component/Retry'
+import Loading from '../../component/Loading'
 import Introduction from './Introduction'
 import Todo from './Todo'
 
@@ -22,7 +26,15 @@ const Overview = () => {
             <Introduction />
           </Col>
           <Col span={8}>
-            <Todo />
+            <ErrorBoundary fallback={
+              <Retry height='600px' />
+            }>
+              <Suspense fallback={
+                <Loading height='600px' />
+              }>
+                <Todo />
+              </Suspense>
+            </ErrorBoundary>
           </Col>
         </Row>
       </PageHeaderWrapper>

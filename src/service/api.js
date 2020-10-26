@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:11:25
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-22 23:44:14
+ * @Last Modified time: 2020-10-23 21:18:10
  */
 
 const API = {
@@ -24,6 +24,11 @@ const API = {
 
   ADD_BLOG: '/blog/addBlog',
   UPDATE_BLOG: '/blog/updateBlog',
+
+  ADD_TODO: '/todo/addTodo',
+  DELETE_TODO: '/todo/deleteTodo',
+  UPDATE_TODO: '/todo/updateTodo',
+  GET_TODO_LIST: '/todo/getTodoList',
 }
 
 export default API
