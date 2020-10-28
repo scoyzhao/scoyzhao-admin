@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 14:34:14
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-29 00:34:38
+ * @Last Modified time: 2020-10-29 01:51:36
  */
 
 const { createProxyMiddleware } = require('http-proxy-middleware')
@@ -35,7 +35,7 @@ module.exports = (app) => {
   app.use(
     '^/blog',
     createProxyMiddleware({
-      target: 'http://127.0.0.1:7001',
+      target: 'http://120.27.247.30:7001',
       changeOrigin: true,
     })
   )
