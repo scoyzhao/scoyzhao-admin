@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-23 11:10:43
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-27 01:31:10
+ * @Last Modified time: 2020-10-29 01:30:40
  */
 
 import React from 'react'
@@ -22,7 +22,7 @@ const Todo = () => {
     { adddModalVisible, setAddModalVisible },
   ] = useTodo()
 
-  const data = result.data
+  const { data } = result
 
   const handleAddTodo = () => {
     setAddModalVisible(true)

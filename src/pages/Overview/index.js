@@ -2,14 +2,14 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:05:22
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-24 16:26:42
+ * @Last Modified time: 2020-10-29 00:25:07
  */
 
 import React, { Suspense } from 'react'
 import { Row, Col } from 'antd'
 import PageHeaderWrapper from '../../component/PageHeaderWrapper'
 import ErrorBoundary from '../../component/ErrorBoundary'
-import Retry from '../../component/Retry'
+import CollapsePage from '../../component/CollapsePage'
 import Loading from '../../component/Loading'
 import Introduction from './Introduction'
 import Todo from './Todo'
@@ -27,7 +27,7 @@ const Overview = () => {
           </Col>
           <Col span={8}>
             <ErrorBoundary fallback={
-              <Retry height='600px' />
+              <CollapsePage height='600px' />
             }>
               <Suspense fallback={
                 <Loading height='600px' />

@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-20 20:34:04
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 20:40:12
+ * @Last Modified time: 2020-10-29 00:15:16
  */
 
 import React, { useEffect, useRef } from 'react'
@@ -117,7 +117,7 @@ const Category = (props) => {
   ];
 
   return (
-      <>
+    <>
       <Card
         title={keyword}
         hoverable
@@ -149,7 +149,7 @@ const Category = (props) => {
           keyword={keyword}
         />
       }
-      </>
+    </>
   )
 }
 

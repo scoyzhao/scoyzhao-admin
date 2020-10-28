@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-23 14:14:08
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-27 01:16:16
+ * @Last Modified time: 2020-10-29 01:30:52
  */
 
 import useSWR from 'swr'
@@ -11,25 +11,13 @@ import {
   deleteTodo,
   updateTodo,
   getTodoList,
-} from '../../service/request/tood'
+} from '../../service/request/todo'
 import API from '../../service/api'
 import useBoolean from '../useBoolean'
 import useTaskWithPending from '../useTaskWithPending'
 
-const fetcher = async payload => {
-  const res = await getTodoList()
-  if (res.code !== 0) {
-    const error = new Error('An error occurred while fetching the data.')
-    error.info = await res.json()
-    error.status = res.status
-    throw error
-  }
-
-  return res
-}
-
 const useTodo = () => {
-  const { data: result, isValidating, mutate: getTodoMutate } = useSWR(API.GET_TODO_LIST, fetcher, {
+  const { data: result, isValidating, mutate: getTodoMutate } = useSWR(API.GET_TODO_LIST, () => getTodoList(), {
     suspense: true,
   })
   const [loading, { set: setLoading }] = useBoolean(false)

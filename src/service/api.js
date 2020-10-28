@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-14 01:11:25
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 21:18:10
+ * @Last Modified time: 2020-10-29 01:21:37
  */
 
 const API = {
@@ -23,7 +23,9 @@ const API = {
   GET_TAG_LIST: '/tag/getTagList',
 
   ADD_BLOG: '/blog/addBlog',
+  DELETE_BLOG: '/blog/deleteBlog',
   UPDATE_BLOG: '/blog/updateBlog',
+  GET_BLOG_LIST: '/blog/getBlogList',
 
   ADD_TODO: '/todo/addTodo',
   DELETE_TODO: '/todo/deleteTodo',
