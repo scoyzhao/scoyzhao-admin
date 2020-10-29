@@ -2,32 +2,35 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 10:51:12
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-29 01:50:15
+ * @Last Modified time: 2020-11-04 00:15:52
  */
 
 import React from 'react'
 import { Table, Button, Card, Popconfirm, Spin, Switch, message } from 'antd'
-import useBlogList from '../../../hooks/business/useBlogList'
+import { useHistory } from 'react-router-dom'
+import useBlogList from '@/hooks/business/useBlogList'
 
 const BlogList = () => {
+  const history = useHistory()
   const [
     result,
     loading,
     getBlogMutate,
     deleteItem,
     updateItem,
+    getBlogById,
     tagList,
     typeList,
   ] = useBlogList()
 
   const { data } = result
-  const handleChange = async(id, attr, checked) => {
+  const handleChange = async (id, attr, checked) => {
     try {
       const newResult = JSON.parse(JSON.stringify(result))
       for (let i = 0; i < newResult.data.length; i++) {
         if (id === newResult.data[i].id) {
           newResult.data[i][attr] = checked
-          break
+          break    
         }
       }
 
@@ -63,6 +66,26 @@ const BlogList = () => {
     }
   }
 
+  const handleEdit = async (id) => {
+    try {
+      const res = await getBlogById({ id })
+      gotoEditPage(res.data)
+    } catch (error) {
+      message.error(error.toString())
+    }
+  }
+
+  const handleAdd = () => {
+    gotoEditPage()
+  }
+
+  const gotoEditPage = (state) => {
+    history.push({
+      pathname: '/index/blog/edit',
+      state,
+    })
+  }
+
   const columns = [
     {
       title: '标题',
@@ -90,15 +113,14 @@ const BlogList = () => {
       width: '30%',
       dataIndex: 'tags',
       render: tags => {
-        const tagArr = tags.split(',')
         const tagObj = {}
         let nameArr = []
         for (let i = 0; i < tagList.length; i++) {
           tagObj[tagList[i].id] = tagList[i].name
         }
 
-        for (let i = 0; i < tagArr.length; i++) {
-          nameArr.push(tagObj[tagArr[i]])
+        for (let i = 0; i < tags.length; i++) {
+          nameArr.push(tagObj[tags[i]])
         }
 
         return nameArr.join(', ')
@@ -141,13 +163,13 @@ const BlogList = () => {
           <>
             <Button
               type='primary'
-            // onClick={() => handleEdit(id)}
+              onClick={() => handleEdit(id)}
             >
               编辑
             </Button>
             <Popconfirm
               title={`确定要删除 ${title} 吗?`}
-            onConfirm={() => handleDelete(id)}
+              onConfirm={() => handleDelete(id)}
             >
               <Button
                 style={{ marginLeft: '20px' }}
@@ -166,7 +188,7 @@ const BlogList = () => {
       title={(
         <Button
           type='primary'
-        // onClick={handleAdd}
+          onClick={handleAdd}
         >
           新增博客
         </Button>

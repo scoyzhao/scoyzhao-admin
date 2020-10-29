@@ -7,7 +7,7 @@
 
 import React from 'react'
 import { Card, Spin, List, Button, Row, Col, Switch, message } from 'antd'
-import useTodo from '../../../hooks/business/ustTodo'
+import useTodo from '@/hooks/business/ustTodo'
 import AddModal from './AddModal'
 import './index.css'
 

@@ -16,7 +16,7 @@ import {
   deleteTag,
   updateTag,
   getTagList,
-} from '../../service/request/tag'
+} from '@/service/request/tag'
 
 const useTag = () => {
   const [tagList, { set: setTagList }] = useArray([])

@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-29 00:17:42
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-29 01:35:42
+ * @Last Modified time: 2020-11-05 20:15:35
  */
 
 import useSWR from 'swr'
@@ -10,15 +10,15 @@ import {
   deleteBlog,
   updateBlog,
   getBlogList,
-} from '../../service/request/blog'
-import { getTagList } from '../../service/request/tag'
-import { getTypeList } from '../../service/request/type'
-import API from '../../service/api'
+} from '@/service/request/blog'
+import { getTagList } from '@/service/request/tag'
+import { getTypeList } from '@/service/request/type'
+import API from '@/service/api'
 import useBoolean from '../useBoolean'
 import useTaskWithPending from '../useTaskWithPending'
 
 const useTodo = () => {
-  const { data: result, isValidating, mutate: getBlogMutate } = useSWR(API.GET_TODO_LIST, () => getBlogList(), {
+  const { data: result, isValidating, mutate: getBlogMutate } = useSWR(API.GET_BLOG_LIST, () => getBlogList(), {
     suspense: true,
   })
   const { data: tagListResult, isValidating: isTagListLoading } = useSWR(API.GET_TAG_LIST, () => getTagList(), {
@@ -30,6 +30,7 @@ const useTodo = () => {
   const [loading, { set: setLoading }] = useBoolean(false)
   const [deleteItem] = useTaskWithPending(deleteBlog, { setLoading })
   const [updateItem] = useTaskWithPending(updateBlog, { setLoading })
+  const [getBlogById] = useTaskWithPending(getBlogList, { setLoading })
 
   return [
     result,
@@ -37,6 +38,7 @@ const useTodo = () => {
     getBlogMutate,
     deleteItem,
     updateItem,
+    getBlogById,
     tagListResult.data,
     typeListResult.data,
   ]

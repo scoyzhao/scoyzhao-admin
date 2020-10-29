@@ -2,11 +2,11 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:49:33
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 21:02:26
+ * @Last Modified time: 2020-11-05 20:17:54
  */
 
 import React from 'react'
-import PageHeaderWrapper from '../../component/PageHeaderWrapper'
+import PageHeaderWrapper from '@/component/PageHeaderWrapper'
 import Type from './Type'
 import Tag from './Tag'
 

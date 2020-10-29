@@ -2,20 +2,20 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 11:04:54
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 00:11:50
+ * @Last Modified time: 2020-11-05 20:14:41
  */
 import useString from '../useString'
 import useArray from '../useArray'
 import useBoolean from '../useBoolean'
 import useObject from '../useObject'
 import useTaskPendingState from '../useTaskPendingState'
-import { getTagList } from '../../service/request/tag'
-import { getTypeList } from '../../service/request/type'
-import { addBlog, updateBlog } from '../../service/request/blog'
+import { getTagList } from '@/service/request/tag'
+import { getTypeList } from '@/service/request/type'
+import { addBlog, updateBlog } from '@/service/request/blog'
 import useTaskWithPending from '../useTaskWithPending'
 
 const useBlogEdit = () => {
-  const [ariticle, { set: setBlog }] = useObject({})
+  const [blog, { set: setBlog }] = useObject({})
   const [content, {set: setContent}] = useString('')
   const [typeList, { set: setTypeList }] = useArray([])
   const [tagList, { set: setTagList }] = useArray([])
@@ -28,7 +28,7 @@ const useBlogEdit = () => {
   const [update] = useTaskWithPending(updateBlog, { setLoading: setEditLoading })
 
   return [
-    ariticle,
+    blog,
     content,
     setBlog,
     setContent,
