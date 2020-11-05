@@ -2,9 +2,9 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 11:04:54
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-11-05 20:14:41
+ * @Last Modified time: 2020-11-05 21:02:57
  */
-import useString from '../useString'
+
 import useArray from '../useArray'
 import useBoolean from '../useBoolean'
 import useObject from '../useObject'
@@ -16,7 +16,6 @@ import useTaskWithPending from '../useTaskWithPending'
 
 const useBlogEdit = () => {
   const [blog, { set: setBlog }] = useObject({})
-  const [content, {set: setContent}] = useString('')
   const [typeList, { set: setTypeList }] = useArray([])
   const [tagList, { set: setTagList }] = useArray([])
   const [loading, { set: setLoading }] = useBoolean(false)
@@ -29,9 +28,7 @@ const useBlogEdit = () => {
 
   return [
     blog,
-    content,
     setBlog,
-    setContent,
     typeList,
     tagList,
     getTypes,

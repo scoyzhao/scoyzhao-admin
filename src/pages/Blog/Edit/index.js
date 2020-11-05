@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 10:46:30
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-11-05 20:39:08
+ * @Last Modified time: 2020-11-05 21:03:14
  */
 
 import React from 'react'
@@ -33,9 +33,7 @@ const formItemLayout = {
 const BlogEdit = () => {
   const [
     blog,
-    content,
     setBlog,
-    setContent,
     typeList,
     tagList,
     getTypes,
