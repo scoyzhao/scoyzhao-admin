@@ -7,7 +7,7 @@
 
 import useTaskPending from '../useTaskWithPending'
 import useBoolean from '../useBoolean'
-import { logout } from '../../service/request/user'
+import { logout } from '@/service/request/user'
 
 const useLogout = () => {
   const [loading, { set: setLoading }] = useBoolean(false)

@@ -6,10 +6,10 @@
  */
 
 import React, { Suspense } from 'react'
-import PageHeaderWrapper from '../../../component/PageHeaderWrapper'
-import ErrorBoundary from '../../../component/ErrorBoundary'
-import CollapsePage from '../../../component/CollapsePage'
-import Loading from '../../../component/Loading'
+import PageHeaderWrapper from '@/component/PageHeaderWrapper'
+import ErrorBoundary from '@/component/ErrorBoundary'
+import CollapsePage from '@/component/CollapsePage'
+import Loading from '@/component/Loading'
 import BlogList from './BlogList'
 
 const Index = () => {

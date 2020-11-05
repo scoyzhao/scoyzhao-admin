@@ -2,15 +2,15 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 00:05:22
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-29 00:25:07
+ * @Last Modified time: 2020-11-05 20:19:29
  */
 
 import React, { Suspense } from 'react'
 import { Row, Col } from 'antd'
-import PageHeaderWrapper from '../../component/PageHeaderWrapper'
-import ErrorBoundary from '../../component/ErrorBoundary'
-import CollapsePage from '../../component/CollapsePage'
-import Loading from '../../component/Loading'
+import PageHeaderWrapper from '@/component/PageHeaderWrapper'
+import ErrorBoundary from '@/component/ErrorBoundary'
+import CollapsePage from '@/component/CollapsePage'
+import Loading from '@/component/Loading'
 import Introduction from './Introduction'
 import Todo from './Todo'
 

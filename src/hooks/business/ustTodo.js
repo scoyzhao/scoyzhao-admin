@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-23 14:14:08
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-29 01:30:52
+ * @Last Modified time: 2020-11-05 20:14:08
  */
 
 import useSWR from 'swr'
@@ -11,8 +11,8 @@ import {
   deleteTodo,
   updateTodo,
   getTodoList,
-} from '../../service/request/todo'
-import API from '../../service/api'
+} from '@/service/request/todo'
+import API from '@/service/api'
 import useBoolean from '../useBoolean'
 import useTaskWithPending from '../useTaskWithPending'
 

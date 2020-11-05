@@ -2,14 +2,14 @@
  * @Author: scoyzhao
  * @Date: 2020-10-19 18:15:01
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-28 00:47:54
+ * @Last Modified time: 2020-11-01 18:11:20
  */
 
 import useMethods from './useMethods'
 
 const ObjectMethods = {
   set(state, newValue) {
-    return { ...newValue}
+    return newValue
   }
 }
 

@@ -7,7 +7,7 @@
 
 import React from 'react'
 import { Button, Card, Input, Row, Col, message } from 'antd'
-import useLogin from '../../hooks/business/useLogin'
+import useLogin from '@/hooks/business/useLogin'
 
 import './index.css'
 

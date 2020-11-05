@@ -2,20 +2,20 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 10:46:30
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 11:37:15
+ * @Last Modified time: 2020-11-05 20:39:08
  */
 
 import React from 'react'
 import { Card, Input, Form, Select, Button, Row, Col, message } from 'antd'
-import PageHeaderWrapper from '../../../component/PageHeaderWrapper'
-import Loading from '../../../component/Loading/index'
+import { useLocation, useHistory } from 'react-router-dom'
+import PageHeaderWrapper from '@/component/PageHeaderWrapper'
+import Loading from '@/component/Loading/index'
 import Editor from 'for-editor'
+import _ from 'lodash'
 
-import useBlogEdit from '../../../hooks/business/useBlogEdit'
+import useBlogEdit from '@/hooks/business/useBlogEdit'
 import { useEffect } from 'react'
 import { useForm } from 'antd/lib/form/Form'
-
-const SCOYZHAO_BLOG_DRAFT = 'myBlogDraft'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -30,7 +30,7 @@ const formItemLayout = {
   },
 }
 
-const BlogEdit = (props) => {
+const BlogEdit = () => {
   const [
     blog,
     content,
@@ -46,114 +46,107 @@ const BlogEdit = (props) => {
     editLoading,
   ] = useBlogEdit()
 
+  const location = useLocation()
+  const history = useHistory()
+  const [form] = useForm()
+
+  useEffect(() => {
+    const { state } = location
+    if (state) {
+      setBlog(state)
+    }
+  }, [location, setBlog])
+
   useEffect(() => {
     getTages()
     getTypes()
   }, [getTages, getTypes])
 
-  const [form] = useForm()
-
-  useEffect(() => {
-    const draft = localStorage.getItem(SCOYZHAO_BLOG_DRAFT)
-    if (draft) {
-      setBlog(JSON.parse(draft))
-      setContent(JSON.parse(draft).content)
-    }
-  }, [setBlog, setContent])
-
   const handleChange = (value) => {
-    setContent(value)
-    setBlog({
+    const newBlog = _.cloneDeep(blog)
+    setBlog(Object.assign(newBlog, {
       content: value,
-    })
+    }))
   }
 
-  const handleSaveDraft = () => {
-    const draft = JSON.parse(localStorage.getItem(SCOYZHAO_BLOG_DRAFT))
-    try {
-      let newBlog = Object.assign({}, { content }, form.getFieldsValue())
-      // * 如果有草稿，可能有id，这里处理下
-      if (draft?.id) {
-        newBlog = Object.assign({}, newBlog, { id: draft.id })
-      }
-      setBlog(newBlog)
-      localStorage.setItem(SCOYZHAO_BLOG_DRAFT, JSON.stringify(newBlog))
-      message.info('草稿已保存')
-    } catch (error) {
-      console.log("handleSaveDraft -> error", error)
-      message.info('草稿保存失败')
-    }
-  }
-
-  const handleSaveBlog = async () => {
+  const handleSubmit = async (isShow = false) => {
     try {
       await form.validateFields()
+      let newBlog = Object.assign(blog, form.getFieldsValue())
+      setBlog(newBlog)
+      submit(isShow)
     } catch (error) {
       message.error('请完善表单')
     }
-
-    handleSaveDraft()
-    handleSubmit()
   }
 
-  const handleSubmit = async () => {
-    const draft = JSON.parse(localStorage.getItem(SCOYZHAO_BLOG_DRAFT))
+  const submit = async (isShow) => {
     // * 补全字段，否则为undefined，无法修改数据库字段
     const newBlog = Object.assign({}, {
       tags: [],
       abstract: ''
-    }, draft)
+    }, blog)
 
-    const { id } = newBlog
+    const { id, title, abstract, type, tags, content } = newBlog
     if (id) {
       try {
         const result = await updateBlog({
           id,
-          payload: newBlog
+          payload: {
+            title,
+            abstract,
+            type,
+            tags,
+            content,
+            isShow: isShow? 1: 0,
+          }
         })
 
         if (result.code !== 0) {
           return message.error(result.msg)
         }
 
-        return message.success(result.msg)
+        message.success(result.msg)
+        return history.push('/index/blog/list')
       } catch (error) {
-        return message.error(error.msg)
+        return message.error(error.toString())
       }
     } else {
       try {
-        const result = await addBlog(newBlog)
+        const result = await addBlog(Object.assign(newBlog, {
+          isShow: isShow? 1: 0,
+        }))
 
         if (result.code !== 0) {
           return message.error(result.msg)
         }
 
-        // * 新增的话给草稿加上id
-        const newDraft = Object.assign({}, { id: result.data }, newBlog)
-        localStorage.setItem(SCOYZHAO_BLOG_DRAFT, JSON.stringify(newDraft))
-        return message.success('保存成功')
+        message.success(result.msg)
+        return history.push('/index/blog/list')
       } catch (error) {
         return message.error(error.toString())
       }
     }
   }
 
-  const handleDeleteDraft = () => {
-    try {
-      form.setFieldsValue({
-        title: undefined,
-        abstract: undefined,
-        tags: undefined,
-        type: undefined,
+  const setInitialValues = () => {
+    const values = {}
+    if (blog.title) {
+      const tags = []
+      blog.tags.map(tag => {
+        return tags.push(Number.parseInt(tag))
       })
-      setContent('')
-      setBlog({})
-      localStorage.removeItem(SCOYZHAO_BLOG_DRAFT)
-      console.log("handleDeleteDraft -> blog", blog)
-      message.info('草稿已保存')
-    } catch (error) {
-      message.error(error.toString())
+
+      Object.assign(values, {
+        title: blog.title,
+        abstract: blog.abstract,
+        tags: tags,
+        type: Number.parseInt(blog.type),
+        content: blog.content,
+      })
     }
+
+    return values
   }
 
   return (
@@ -162,7 +155,7 @@ const BlogEdit = (props) => {
         loading
           ? <Loading />
           : <Card>
-            <Form {...formItemLayout} form={form} initialValues={blog}>
+            <Form {...formItemLayout} form={form} initialValues={setInitialValues()}>
               <Row>
                 <Col span={12}>
                   <Item
@@ -175,7 +168,7 @@ const BlogEdit = (props) => {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder='请输入博客标题' />
                   </Item>
                 </Col>
                 <Col span={12}>
@@ -183,7 +176,7 @@ const BlogEdit = (props) => {
                     name='abstract'
                     label='简介'
                   >
-                    <TextArea rows={2} />
+                    <TextArea rows={2} placeholder='请输入博客简介' />
                   </Item>
                 </Col>
               </Row>
@@ -223,6 +216,12 @@ const BlogEdit = (props) => {
                   <Item
                     name='tags'
                     label='标签'
+                    rules={[
+                      {
+                        required: true,
+                        message: '标签不能为空',
+                      },
+                    ]}
                   >
                     <Select
                       showSearch
@@ -243,34 +242,28 @@ const BlogEdit = (props) => {
                     </Select>
                   </Item>
                 </Col>
-                <Col offset={6}>
-                  <Button onClick={handleSaveDraft}>
-                    暂存
-              </Button>
+                <Col offset={8}>
                   <Button
-                    style={{ marginLeft: '20px' }}
-                    type='danger'
-                    onClick={handleDeleteDraft}
+                    onClick={() => handleSubmit(false)}
                   >
-                    清除草稿
-              </Button>
+                    保存博客
+                  </Button>
                   <Button
                     style={{ marginLeft: '20px' }}
                     type='primary'
                     loading={editLoading}
-                    onClick={handleSaveBlog}
+                    onClick={() => handleSubmit(true)}
                   >
-                    保存博客
+                    发布博客
               </Button>
                 </Col>
               </Row>
             </Form>
             <Editor
-              value={content}
+              value={blog.content}
               preview
               subfield
               onChange={(value) => handleChange(value)}
-              onSave={handleSaveDraft}
             />
           </Card>
       }

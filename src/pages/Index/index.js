@@ -2,12 +2,13 @@
  * @Author: scoyzhao
  * @Date: 2020-10-16 01:05:24
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-22 23:34:17
+ * @Last Modified time: 2020-11-02 21:11:26
  */
 
 import React, { useState } from 'react'
 import { Route } from 'react-router-dom'
 import { Layout, Menu, Button, message } from 'antd'
+import { useLocation } from 'react-router-dom'
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -16,7 +17,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 
-import useLogout from '../../hooks/business/useLogout'
+import useLogout from '@/hooks/business/useLogout'
 import Overveiw from '../Overview'
 import Category from '../Category'
 import BlogEdit from '../Blog/Edit'
@@ -44,7 +45,7 @@ const Index = (props) => {
     if (key === 'index') {
       props.history.push('/index')
     } else {
-      props.history.push(`/index/${key}`)
+      props.history.push(`/${key}`)
     }
   }
 
@@ -57,24 +58,27 @@ const Index = (props) => {
     }
   }
 
+  const { pathname } = useLocation()
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <Menu
           theme='dark'
-          defaultSelectedKeys={['index']}
           mode='inline'
+          openKeys={['sub1']}
+          selectedKeys={[pathname.substring(1)]}
           onClick={handleNavigation}
         >
           <Item key='index' icon={<PieChartOutlined />}>
-            概览
+          概览
           </Item>
-          <Item key='category' icon={<DesktopOutlined />}>
-            类别管理
+          <Item key='index/category' icon={<DesktopOutlined />}>
+          类别管理
           </Item>
           <SubMenu key='sub1' icon={<UserOutlined />} title='博客管理'>
-            <Item key='blog/list'>博客列表</Item>
-            <Item key='blog/edit'>博客编辑</Item>
+            <Item key='index/blog/list'>博客列表</Item>
+            <Item key='index/blog/edit'>博客编辑</Item>
           </SubMenu>
         </Menu>
       </Sider>
@@ -85,14 +89,14 @@ const Index = (props) => {
           loading={loading}
           onClick={handleLogout}
         >
-          退出登录
+        退出登录
           </Button>
         <Content style={{ margin: '0 16px' }}>
           <>
             <Route path='/index' exact component={Overveiw} />
             <Route path='/index/category' exact component={Category} />
             <Route path='/index/blog/list' exact component={BlogList} />
-            <Route path='/index/blog/edit' exact component={BlogEdit} />
+            <Route path='/index/blog/edit' component={BlogEdit} />
           </>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

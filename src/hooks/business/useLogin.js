@@ -8,7 +8,7 @@
 import useTaskPending from '../useTaskWithPending'
 import useBoolean from '../useBoolean'
 import useString from '../useString'
-import { login } from '../../service/request/user'
+import { login } from '@/service/request/user'
 
 
 const useLogin = () => {

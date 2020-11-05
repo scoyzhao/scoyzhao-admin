@@ -15,7 +15,7 @@ import {
   deleteType,
   updateType,
   getTypeList,
-} from '../../service/request/type'
+} from '@/service/request/type'
 
 const useType = () => {
   const [typeList, { set: setTypeList }] = useArray([])

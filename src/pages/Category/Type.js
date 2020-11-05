@@ -2,11 +2,11 @@
  * @Author: scoyzhao
  * @Date: 2020-10-20 20:30:44
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-20 20:54:18
+ * @Last Modified time: 2020-11-05 20:18:56
  */
 
 import React from 'react'
-import useType from '../../hooks/business/useType'
+import useType from '@/hooks/business/useType'
 import CateGoryTableComponent from './component/CategoryTableCompoent'
 
 const Type = () => {
