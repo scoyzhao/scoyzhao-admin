@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-23 10:44:16
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-10-23 11:14:07
+ * @Last Modified time: 2020-11-06 18:30:10
  */
 
 import React from 'react'
@@ -20,7 +20,7 @@ const Introduction = () => {
         <Col span={12}>
           <img
             width="100%"
-            src="http://img.wxcha.com/file/201811/01/e7acbcc1fd.jpg"
+            src="https://raw.githubusercontent.com/scoyzhao/FigureBed/master/blog/index_pic.jpg"
             alt=""
           />
         </Col>
