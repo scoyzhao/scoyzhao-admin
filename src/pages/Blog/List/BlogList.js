@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 10:51:12
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-11-04 00:15:52
+ * @Last Modified time: 2020-12-14 17:16:38
  */
 
 import React from 'react'
@@ -89,7 +89,7 @@ const BlogList = () => {
   const columns = [
     {
       title: '标题',
-      width: '20%',
+      width: '25%',
       dataIndex: 'title',
     },
     {
@@ -110,7 +110,7 @@ const BlogList = () => {
     },
     {
       title: '标签',
-      width: '30%',
+      width: '25%',
       dataIndex: 'tags',
       render: tags => {
         const tagObj = {}
