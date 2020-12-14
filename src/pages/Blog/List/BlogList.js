@@ -2,7 +2,7 @@
  * @Author: scoyzhao
  * @Date: 2020-10-22 10:51:12
  * @Last Modified by: scoyzhao
- * @Last Modified time: 2020-12-14 17:16:38
+ * @Last Modified time: 2020-12-14 21:36:40
  */
 
 import React from 'react'
@@ -88,8 +88,13 @@ const BlogList = () => {
 
   const columns = [
     {
+      title: 'id',
+      width: '3%',
+      dataIndex: 'id',
+    },
+    {
       title: '标题',
-      width: '25%',
+      width: '30%',
       dataIndex: 'title',
     },
     {
@@ -110,7 +115,7 @@ const BlogList = () => {
     },
     {
       title: '标签',
-      width: '25%',
+      width: '22%',
       dataIndex: 'tags',
       render: tags => {
         const tagObj = {}
@@ -156,7 +161,7 @@ const BlogList = () => {
     },
     {
       title: '操作',
-      width: '20%',
+      width: '15%',
       render: record => {
         const { id, title } = record
         return (
